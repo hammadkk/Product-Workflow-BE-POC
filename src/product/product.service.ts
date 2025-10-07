@@ -49,9 +49,7 @@ export class ProductService {
   }
 
   async triggerWorkflowForProduct(product: Product, isProductKnown: boolean) {
-    const isRejected =
-      product.status === ProductStatus.REJECTED ||
-      product.status === ProductStatus.PENDING;
+    const isRejected = product.status === ProductStatus.REJECTED;
 
     const isProductRejected = isRejected;
 
