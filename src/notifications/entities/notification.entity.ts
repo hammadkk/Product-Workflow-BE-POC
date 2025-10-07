@@ -10,15 +10,15 @@ export class Notification {
 
   @Field()
   @Column()
-  userId: number;
+  userId: string;
 
   @Field()
   @Column()
-  workflowId: number;
+  workflowId: string;
 
   @Field()
   @Column()
-  nodeId: number;
+  nodeId: string;
 
   @Field({ nullable: true })
   @Column({ nullable: true })
