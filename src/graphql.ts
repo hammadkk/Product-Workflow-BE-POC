@@ -38,9 +38,9 @@ export class UpdateProductDetailsInput {
 }
 
 export class CreateNotificationInput {
-    userId: number;
-    workflowId: number;
-    nodeId: number;
+    userId: string;
+    workflowId: string;
+    nodeId: string;
     description?: Nullable<string>;
     productName: string;
     isModified: boolean;
@@ -63,9 +63,9 @@ export class Product {
 
 export class Notification {
     id: string;
-    userId: number;
-    workflowId: number;
-    nodeId: number;
+    userId: string;
+    workflowId: string;
+    nodeId: string;
     description?: Nullable<string>;
     productName: string;
     isModified: boolean;

@@ -20,9 +20,9 @@ enum ProductStatus {
 
 type Notification {
   id: ID!
-  userId: Float!
-  workflowId: Float!
-  nodeId: Float!
+  userId: String!
+  workflowId: String!
+  nodeId: String!
   description: String
   productName: String!
   isModified: Boolean!
@@ -67,9 +67,9 @@ input UpdateProductDetailsInput {
 }
 
 input CreateNotificationInput {
-  userId: Float!
-  workflowId: Float!
-  nodeId: Float!
+  userId: String!
+  workflowId: String!
+  nodeId: String!
   description: String
   productName: String!
   isModified: Boolean!
