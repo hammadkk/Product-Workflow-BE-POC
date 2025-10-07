@@ -3,7 +3,10 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
 import { ProductStatus } from 'src/common/enum';
-import { UpdateProductDetailsInput, UpdateProductStatusInput } from './dtos/product.dto';
+import {
+  UpdateProductDetailsInput,
+  UpdateProductStatusInput,
+} from './dtos/product.dto';
 
 @Injectable()
 export class ProductRepository extends Repository<Product> {
@@ -26,16 +29,6 @@ export class ProductRepository extends Repository<Product> {
     return this.save(newProduct);
   }
 
-  async markExistingProductFlags(product: Product): Promise<Product> {
-    const isRejected = 
-      product.status === ProductStatus.REJECTED ||
-      product.status === ProductStatus.PENDING;
-
-    const isProductKnown = true;
-    const isProductRejected = isRejected;
-    return this.save(product);
-  }
-
   async updateProductStatus(input: UpdateProductStatusInput): Promise<Product> {
     const product = await this.findBySKU(input.sku);
     if (!product) throw new Error(`Product with SKU ${input.sku} not found`);
@@ -44,7 +37,9 @@ export class ProductRepository extends Repository<Product> {
     return this.save(product);
   }
 
-  async updateProductDetails(input: UpdateProductDetailsInput): Promise<Product> {
+  async updateProductDetails(
+    input: UpdateProductDetailsInput,
+  ): Promise<Product> {
     const product = await this.findBySKU(input.sku);
     if (!product) throw new Error(`Product with SKU ${input.sku} not found`);
 
