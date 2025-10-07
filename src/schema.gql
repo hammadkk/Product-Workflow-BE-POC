@@ -1,0 +1,81 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Product {
+  id: ID!
+  name: String!
+  mfr: String!
+  description: String!
+  price: Float!
+  sku: String!
+  status: ProductStatus!
+}
+
+enum ProductStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+type Notification {
+  id: ID!
+  userId: Float!
+  workflowId: Float!
+  nodeId: Float!
+  description: String
+  productName: String!
+  isModified: Boolean!
+}
+
+type Query {
+  products: [Product!]!
+  notifications: [Notification!]!
+  notification(id: ID!): Notification!
+}
+
+type Mutation {
+  createProduct(createProductInput: CreateProductInput!): Product!
+  updateProductStatus(updateProductStatusInput: UpdateProductStatusInput!): Product!
+  updateProductDetails(updateProductDetailsInput: UpdateProductDetailsInput!): Product!
+  createNotification(createNotificationInput: CreateNotificationInput!): Notification!
+  updateNotification(updateNotificationInput: UpdateNotificationInput!): Notification!
+  deleteNotification(id: ID!): Boolean!
+}
+
+input CreateProductInput {
+  name: String!
+  mfr: String!
+  description: String!
+  price: Float!
+  sku: String!
+  status: ProductStatus = PENDING
+}
+
+input UpdateProductStatusInput {
+  sku: String!
+  status: ProductStatus!
+}
+
+input UpdateProductDetailsInput {
+  sku: String!
+  name: String
+  mfr: String
+  description: String
+  price: Float
+  status: ProductStatus
+}
+
+input CreateNotificationInput {
+  userId: Float!
+  workflowId: Float!
+  nodeId: Float!
+  description: String
+  productName: String!
+  isModified: Boolean!
+}
+
+input UpdateNotificationInput {
+  id: ID!
+  isModified: Boolean
+}

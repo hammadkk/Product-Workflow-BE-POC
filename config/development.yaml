@@ -1,0 +1,15 @@
+environment: 'localhost'
+host: 0.0.0.0
+port: 3500
+version: '1.0.0'
+
+
+dbConfigurationProduct:
+  host: localhost       
+  port: 5436            
+  username: postgres
+  password: '123456'
+  database: product
+  synchronize: false
+  ssl: { enabled: false, rejectUnauthorized: false }
+  rejectUnauthorized: false

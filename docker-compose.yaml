@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  db:
+    container_name: ZDP-Product-DB
+    image: postgres
+    restart: always
+    ports:
+      - '5436:5432'
+    environment:
+      POSTGRES_DB: product
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  db-data:
+  data:
