@@ -1,19 +1,49 @@
 import { InputType, Field, PartialType, Int, ID } from '@nestjs/graphql';
-import { IsBoolean, IsInt, IsOptional, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsBoolean,
+  IsInt,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 @InputType()
 export class CreateNotificationInput {
   @Field()
-  @IsInt()
-  userId: number;
+  userId: string;
 
   @Field()
-  @IsInt()
-  workflowId: number;
+  workflowId: string;
 
   @Field()
-  @IsInt()
-  nodeId: number;
+  nodeId: string;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @IsString()
+  description?: string;
+
+  @Field()
+  @IsString()
+  productName: string;
+
+  @Field()
+  @IsBoolean()
+  isModified: boolean;
+}
+
+@InputType()
+export class CreateNotificationBulkInput {
+  @IsArray()
+  userIds: string[];
+
+  @Field()
+  @IsString()
+  workflowId: string;
+
+  @Field()
+  @IsString()
+  nodeId: string;
 
   @Field({ nullable: true })
   @IsOptional()
@@ -32,7 +62,7 @@ export class CreateNotificationInput {
 @InputType()
 export class UpdateNotificationInput {
   @Field(() => ID)
-  id: string; 
+  id: string;
 
   @Field({ nullable: true })
   isModified?: boolean;
