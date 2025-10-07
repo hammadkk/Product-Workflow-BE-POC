@@ -20,7 +20,9 @@ export class ProductService {
     );
 
     if (existing) {
+      const { status, ...rest } = createProductInput;
       // trigger workflow with existing product
+      Object.assign(existing, rest);
       await triggerWorkflowForProduct(existing, true);
       return existing;
     }
