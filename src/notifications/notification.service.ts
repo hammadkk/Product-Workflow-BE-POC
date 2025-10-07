@@ -7,6 +7,7 @@ import {
   CreateNotificationInput,
   UpdateNotificationInput,
 } from './dtos/notification.dto';
+import { sendWorkflowApproval } from '../common/util';
 
 @Injectable()
 export class NotificationService {
@@ -46,8 +47,18 @@ export class NotificationService {
   async update(
     id: string,
     data: UpdateNotificationInput,
+    approvalResponse: boolean,
   ): Promise<Notification> {
     const notification = await this.findOne(id);
+
+    // signal workflow on user response
+    await sendWorkflowApproval(
+      notification?.workflowId,
+      notification?.nodeId,
+      notification?.userId,
+      approvalResponse ?? false,
+    );
+
     Object.assign(notification, data);
     return this.notificationRepository.save(notification);
   }
