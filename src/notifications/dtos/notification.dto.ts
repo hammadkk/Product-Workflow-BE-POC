@@ -4,16 +4,16 @@ import { IsBoolean, IsInt, IsOptional, IsString } from 'class-validator';
 @InputType()
 export class CreateNotificationInput {
   @Field()
-  @IsInt()
-  userId: number;
+  @IsString()
+  userId: string;
 
   @Field()
-  @IsInt()
-  workflowId: number;
+  @IsString()
+  workflowId: string;
 
   @Field()
-  @IsInt()
-  nodeId: number;
+  @IsString()
+  nodeId: string;
 
   @Field({ nullable: true })
   @IsOptional()
