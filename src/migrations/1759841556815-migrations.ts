@@ -15,7 +15,7 @@ export class Migrations1759841556815 implements MigrationInterface {
         await queryRunner.query(`CREATE TABLE "products" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying NOT NULL, "mfr" character varying NOT NULL, "description" character varying NOT NULL, "price" numeric NOT NULL, "sku" character varying NOT NULL, "status" "products_status_enum" NOT NULL DEFAULT 'PENDING', CONSTRAINT "PK_0806c755e0aca124e67c0cf6d7d" PRIMARY KEY ("id"))`);
         
         // 4. Create Notifications Table (No change)
-        await queryRunner.query(`CREATE TABLE "notifications" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "userId" integer NOT NULL, "workflowId" integer NOT NULL, "nodeId" integer NOT NULL, "description" character varying, "productName" character varying NOT NULL, "isModified" boolean NOT NULL DEFAULT false, CONSTRAINT "PK_6a72c3c0f683f6462415e653c3a" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "notifications" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "userId" character varying NOT NULL, "workflowId" character varying NOT NULL, "nodeId" character varying NOT NULL, "description" character varying, "productName" character varying NOT NULL, "isModified" boolean NOT NULL DEFAULT false, CONSTRAINT "PK_6a72c3c0f683f6462415e653c3a" PRIMARY KEY ("id"))`);
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
