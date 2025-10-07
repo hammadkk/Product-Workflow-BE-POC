@@ -41,7 +41,11 @@ export class NotificationController {
     @Param('id') id: string,
     @Body() updateNotificationInput: UpdateNotificationInput,
   ): Promise<Notification> {
-    return this.notificationService.update(id, updateNotificationInput);
+    return this.notificationService.update(
+      id,
+      updateNotificationInput,
+      updateNotificationInput?.isModified ?? false,
+    );
   }
 
   @Delete(':id')
