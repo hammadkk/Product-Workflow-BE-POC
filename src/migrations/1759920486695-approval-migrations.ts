@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class Migrations1759920486695 implements MigrationInterface {
-    name = 'Migrations1759920486695'
+export class ApprovalMigrations1759920486695 implements MigrationInterface {
+    name = 'ApprovalMigrations1759920486695'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TYPE "approvals_approvalstatus_enum" AS ENUM('PENDING', 'APPROVED', 'REJECTED')`);
