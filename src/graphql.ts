@@ -51,6 +51,19 @@ export class UpdateNotificationInput {
     isModified?: Nullable<boolean>;
 }
 
+export class CreateApprovalInput {
+    workflowId: string;
+    nodeId: string;
+    approvalStatus?: Nullable<ProductStatus>;
+    decisions?: Nullable<string[][]>;
+}
+
+export class UpdateApprovalStatusInput {
+    id: string;
+    approvalStatus: ProductStatus;
+    decisions?: Nullable<string[][]>;
+}
+
 export class Product {
     id: string;
     name: string;
@@ -71,12 +84,24 @@ export class Notification {
     isModified: boolean;
 }
 
+export class Approval {
+    id: string;
+    workflowId: string;
+    nodeId: string;
+    approvalStatus: ProductStatus;
+    decisions?: Nullable<string[][]>;
+}
+
 export abstract class IQuery {
     abstract products(): Product[] | Promise<Product[]>;
 
     abstract notifications(): Notification[] | Promise<Notification[]>;
 
     abstract notification(id: string): Notification | Promise<Notification>;
+
+    abstract findAllApprovals(): Approval[] | Promise<Approval[]>;
+
+    abstract findApprovalByWorkflowAndNode(workflowId: string, nodeId: string): Nullable<Approval> | Promise<Nullable<Approval>>;
 }
 
 export abstract class IMutation {
@@ -91,6 +116,10 @@ export abstract class IMutation {
     abstract updateNotification(updateNotificationInput: UpdateNotificationInput): Notification | Promise<Notification>;
 
     abstract deleteNotification(id: string): boolean | Promise<boolean>;
+
+    abstract createApproval(input: CreateApprovalInput): Approval | Promise<Approval>;
+
+    abstract updateApprovalStatus(input: UpdateApprovalStatusInput): Approval | Promise<Approval>;
 }
 
 type Nullable<T> = T | null;

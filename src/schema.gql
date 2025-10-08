@@ -28,10 +28,20 @@ type Notification {
   isModified: Boolean!
 }
 
+type Approval {
+  id: ID!
+  workflowId: String!
+  nodeId: String!
+  approvalStatus: ProductStatus!
+  decisions: [[String!]!]
+}
+
 type Query {
   products: [Product!]!
   notifications: [Notification!]!
   notification(id: ID!): Notification!
+  findAllApprovals: [Approval!]!
+  findApprovalByWorkflowAndNode(workflowId: String!, nodeId: String!): Approval
 }
 
 type Mutation {
@@ -41,6 +51,8 @@ type Mutation {
   createNotification(createNotificationInput: CreateNotificationInput!): Notification!
   updateNotification(updateNotificationInput: UpdateNotificationInput!): Notification!
   deleteNotification(id: ID!): Boolean!
+  createApproval(input: CreateApprovalInput!): Approval!
+  updateApprovalStatus(input: UpdateApprovalStatusInput!): Approval!
 }
 
 input CreateProductInput {
@@ -78,4 +90,17 @@ input CreateNotificationInput {
 input UpdateNotificationInput {
   id: ID!
   isModified: Boolean
+}
+
+input CreateApprovalInput {
+  workflowId: String!
+  nodeId: String!
+  approvalStatus: ProductStatus = PENDING
+  decisions: [[String!]!]
+}
+
+input UpdateApprovalStatusInput {
+  id: String!
+  approvalStatus: ProductStatus!
+  decisions: [[String!]!]
 }

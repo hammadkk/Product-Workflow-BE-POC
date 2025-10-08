@@ -11,6 +11,7 @@ import { typeOrmAsyncConfig } from './config/typeorm.config';
 import { ApolloServerPluginInlineTrace } from '@apollo/server/plugin/inlineTrace';
 import { ProductModule } from './product/product.module';
 import { NotificationModule } from './notifications/notification.module';
+import { ApprovalModule } from './approval/approval.module';
 
 @Module({
   imports: [
@@ -30,7 +31,8 @@ import { NotificationModule } from './notifications/notification.module';
       },
     }),
     ProductModule,
-    NotificationModule
+    NotificationModule,
+    ApprovalModule
   ],
   providers: [AppService],
 })
