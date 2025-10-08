@@ -5,7 +5,7 @@ version: '1.0.0'
 
 dbConfigurationProduct:
   host: 'localhost'
-  port: 5433
+  port: 5436
   username: 'admin'
   password: '123456'
   database: 'poc-db'
