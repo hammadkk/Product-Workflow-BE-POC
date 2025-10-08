@@ -1,6 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsString, IsArray, IsOptional, IsEnum } from 'class-validator';
-import { ProductStatus } from 'src/common/enum';
+import { IsString, IsOptional, IsEnum } from 'class-validator';
+import { ApprovalStatus } from 'src/common/enum';
+import { GraphQLJSONObject } from 'graphql-type-json';
 
 @InputType()
 export class CreateApprovalInput {
@@ -12,15 +13,14 @@ export class CreateApprovalInput {
   @IsString()
   nodeId: string;
 
-  @Field(() => ProductStatus, { nullable: true, defaultValue: ProductStatus.PENDING })
+  @Field(() => ApprovalStatus, { nullable: true, defaultValue: ApprovalStatus.PENDING })
   @IsOptional()
-  @IsEnum(ProductStatus) 
-  approvalStatus?: ProductStatus; 
+  @IsEnum(ApprovalStatus) 
+  approvalStatus?: ApprovalStatus; 
 
-  @Field(() => [[String]], { nullable: true })
+  @Field(() => GraphQLJSONObject, { nullable: true })
   @IsOptional()
-  @IsArray()
-  decisions?: [string, string][];
+  decisions?: Record<string, boolean>;
 }
 
 @InputType()
@@ -29,12 +29,11 @@ export class UpdateApprovalStatusInput {
   @IsString()
   id: string;
 
-  @Field(() => ProductStatus) 
-  @IsEnum(ProductStatus) 
-  approvalStatus: ProductStatus; 
+  @Field(() => ApprovalStatus) 
+  @IsEnum(ApprovalStatus) 
+  approvalStatus: ApprovalStatus; 
 
-  @Field(() => [[String]], { nullable: true })
+  @Field(() => GraphQLJSONObject, { nullable: true })
   @IsOptional()
-  @IsArray()
-  decisions?: [string, string][];
+  decisions?: Record<string, boolean>;
 }

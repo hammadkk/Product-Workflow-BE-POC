@@ -3,7 +3,7 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Approval } from './entities/approval.entity';
 import { CreateApprovalInput, UpdateApprovalStatusInput } from './dtos/approval.dto'; 
-import { ProductStatus } from 'src/common/enum';
+import { ApprovalStatus} from '../common/enum';
 
 @Injectable()
 export class ApprovalRepository extends Repository<Approval> {
@@ -18,8 +18,8 @@ export class ApprovalRepository extends Repository<Approval> {
     const approval = this.create({
       workflowId: input.workflowId,
       nodeId: input.nodeId,
-      approvalStatus: input.approvalStatus || ProductStatus.PENDING,
-      decisions: input.decisions || [],
+      approvalStatus: input.approvalStatus || ApprovalStatus.PENDING,
+      decisions: input.decisions,
     });
     return this.save(approval);
   }

@@ -1,35 +1,33 @@
 // approval.entity.ts
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 import { ObjectType, Field, ID } from '@nestjs/graphql';
-import { ProductStatus } from '../../common/enum';
-
+import { ApprovalStatus } from '../../common/enum';
+import { GraphQLJSONObject } from 'graphql-type-json';
 
 @ObjectType() // <-- ADD THIS DECORATOR
 @Entity({ name: 'approvals' })
 export class Approval {
-  @Field(() => ID) 
+  @Field(() => ID)
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Field() 
+  @Field()
   @Column({ type: 'varchar', nullable: false })
   workflowId: string;
 
-  @Field() 
+  @Field()
   @Column({ type: 'varchar', nullable: false })
   nodeId: string;
 
-  @Field(() => ProductStatus)
-  @Column({ 
-    type: 'enum', 
-    enum: ProductStatus, 
-    default: ProductStatus.PENDING 
+  @Field(() => ApprovalStatus)
+  @Column({
+    type: 'enum',
+    enum: ApprovalStatus,
+    default: ApprovalStatus.PENDING,
   })
-  approvalStatus: ProductStatus; 
+  approvalStatus: ApprovalStatus;
 
-  @Field(() => [[String]], { nullable: true }) 
+  @Field(() => GraphQLJSONObject, { nullable: true })
   @Column({ type: 'jsonb', nullable: true })
-  decisions: [string, string][]; 
-
-
+  decisions?: Record<string, boolean>;
 }

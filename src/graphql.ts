@@ -14,6 +14,12 @@ export enum ProductStatus {
     REJECTED = "REJECTED"
 }
 
+export enum ApprovalStatus {
+    PENDING = "PENDING",
+    APPROVED = "APPROVED",
+    REJECTED = "REJECTED"
+}
+
 export class CreateProductInput {
     name: string;
     mfr: string;
@@ -54,14 +60,14 @@ export class UpdateNotificationInput {
 export class CreateApprovalInput {
     workflowId: string;
     nodeId: string;
-    approvalStatus?: Nullable<ProductStatus>;
-    decisions?: Nullable<string[][]>;
+    approvalStatus?: Nullable<ApprovalStatus>;
+    decisions?: Nullable<JSONObject>;
 }
 
 export class UpdateApprovalStatusInput {
     id: string;
-    approvalStatus: ProductStatus;
-    decisions?: Nullable<string[][]>;
+    approvalStatus: ApprovalStatus;
+    decisions?: Nullable<JSONObject>;
 }
 
 export class Product {
@@ -88,8 +94,8 @@ export class Approval {
     id: string;
     workflowId: string;
     nodeId: string;
-    approvalStatus: ProductStatus;
-    decisions?: Nullable<string[][]>;
+    approvalStatus: ApprovalStatus;
+    decisions?: Nullable<JSONObject>;
 }
 
 export abstract class IQuery {
@@ -122,4 +128,5 @@ export abstract class IMutation {
     abstract updateApprovalStatus(input: UpdateApprovalStatusInput): Approval | Promise<Approval>;
 }
 
+export type JSONObject = any;
 type Nullable<T> = T | null;
