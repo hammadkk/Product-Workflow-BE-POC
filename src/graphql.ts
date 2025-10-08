@@ -119,7 +119,7 @@ export abstract class IMutation {
 
     abstract createNotification(createNotificationInput: CreateNotificationInput): Notification | Promise<Notification>;
 
-    abstract updateNotification(updateNotificationInput: UpdateNotificationInput): Notification | Promise<Notification>;
+    abstract updateNotification(updateNotificationInput: UpdateNotificationInput, approval: boolean): Notification | Promise<Notification>;
 
     abstract deleteNotification(id: string): boolean | Promise<boolean>;
 
