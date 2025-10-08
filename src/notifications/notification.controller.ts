@@ -1,7 +1,19 @@
-import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Put,
+  Delete,
+} from '@nestjs/common';
 import { NotificationService } from './notification.service';
 import { Notification } from './entities/notification.entity';
-import { CreateNotificationInput, UpdateNotificationInput } from './dtos/notification.dto';
+import {
+  CreateNotificationBulkInput,
+  CreateNotificationInput,
+  UpdateNotificationInput,
+} from './dtos/notification.dto';
 
 @Controller('notifications')
 export class NotificationController {
@@ -18,8 +30,10 @@ export class NotificationController {
   }
 
   @Post()
-  async create(@Body() createNotificationInput: CreateNotificationInput): Promise<Notification> {
-    return this.notificationService.create(createNotificationInput);
+  async create(
+    @Body() createNotificationInput: CreateNotificationBulkInput,
+  ): Promise<Notification> {
+    return this.notificationService.createBulk(createNotificationInput);
   }
 
   @Put(':id')
@@ -27,7 +41,11 @@ export class NotificationController {
     @Param('id') id: string,
     @Body() updateNotificationInput: UpdateNotificationInput,
   ): Promise<Notification> {
-    return this.notificationService.update(id, updateNotificationInput);
+    return this.notificationService.update(
+      id,
+      updateNotificationInput,
+      updateNotificationInput?.isModified ?? false,
+    );
   }
 
   @Delete(':id')
@@ -35,3 +53,16 @@ export class NotificationController {
     return this.notificationService.remove(id);
   }
 }
+
+// 'product/api/notifications' [POST]
+/*
+
+  userId: number;
+  workflowId: number;
+  nodeId: number;
+
+  description?: string;
+  productName: string;
+  isModified: boolean;
+
+*/

@@ -60,7 +60,7 @@ type Mutation {
   updateProductStatus(updateProductStatusInput: UpdateProductStatusInput!): Product!
   updateProductDetails(updateProductDetailsInput: UpdateProductDetailsInput!): Product!
   createNotification(createNotificationInput: CreateNotificationInput!): Notification!
-  updateNotification(updateNotificationInput: UpdateNotificationInput!): Notification!
+  updateNotification(updateNotificationInput: UpdateNotificationInput!, approval: Boolean! = false): Notification!
   deleteNotification(id: ID!): Boolean!
   createApproval(input: CreateApprovalInput!): Approval!
   updateApprovalStatus(input: UpdateApprovalStatusInput!): Approval!

@@ -1,27 +1,47 @@
 import { Injectable } from '@nestjs/common';
 import { ProductRepository } from './product.repository';
-import { CreateProductInput, UpdateProductDetailsInput, UpdateProductStatusInput } from './dtos/product.dto';
+import {
+  CreateProductInput,
+  UpdateProductDetailsInput,
+  UpdateProductStatusInput,
+} from './dtos/product.dto';
 import { Product } from './entities/product.entity';
+import { triggerWorkflowForProduct } from 'src/common/util';
 
 @Injectable()
 export class ProductService {
   constructor(private readonly productRepository: ProductRepository) {}
 
-  async createProduct(createProductInput: CreateProductInput): Promise<Product> {
-    const existing = await this.productRepository.findBySKU(createProductInput.sku);
+  async createProduct(
+    createProductInput: CreateProductInput,
+  ): Promise<Product> {
+    const existing = await this.productRepository.findBySKU(
+      createProductInput.sku,
+    );
 
     if (existing) {
-      return this.productRepository.markExistingProductFlags(existing);
+      const { status, ...rest } = createProductInput;
+      // trigger workflow with existing product
+      Object.assign(existing, rest);
+      await triggerWorkflowForProduct(existing, true);
+      return existing;
     }
 
-    return this.productRepository.createNewProduct(createProductInput);
+    const product =
+      await this.productRepository.createNewProduct(createProductInput);
+
+    // trigger workflow with new product
+    await triggerWorkflowForProduct(product, false);
+    return product;
   }
 
   async updateProductStatus(input: UpdateProductStatusInput): Promise<Product> {
     return this.productRepository.updateProductStatus(input);
   }
 
-  async updateProductDetails(input: UpdateProductDetailsInput): Promise<Product> {
+  async updateProductDetails(
+    input: UpdateProductDetailsInput,
+  ): Promise<Product> {
     return this.productRepository.updateProductDetails(input);
   }
 

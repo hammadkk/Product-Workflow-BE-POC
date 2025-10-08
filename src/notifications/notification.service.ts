@@ -2,7 +2,12 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Notification } from './entities/notification.entity';
-import { CreateNotificationInput, UpdateNotificationInput } from './dtos/notification.dto';
+import {
+  CreateNotificationBulkInput,
+  CreateNotificationInput,
+  UpdateNotificationInput,
+} from './dtos/notification.dto';
+import { sendWorkflowApproval } from '../common/util';
 
 @Injectable()
 export class NotificationService {
@@ -16,7 +21,9 @@ export class NotificationService {
   }
 
   async findOne(id: string): Promise<Notification> {
-    const notification = await this.notificationRepository.findOne({ where: { id } });
+    const notification = await this.notificationRepository.findOne({
+      where: { id },
+    });
     if (!notification) {
       throw new NotFoundException(`Notification with ID ${id} not found`);
     }
@@ -28,8 +35,30 @@ export class NotificationService {
     return this.notificationRepository.save(notification);
   }
 
-  async update(id: string, data: UpdateNotificationInput): Promise<Notification> {
+  async createBulk(data: CreateNotificationBulkInput): Promise<Notification> {
+    const { userIds, ...rest } = data;
+    const notification = this.notificationRepository.create({
+      ...rest,
+      userId: userIds[0],
+    } as unknown as Notification);
+    return this.notificationRepository.save(notification);
+  }
+
+  async update(
+    id: string,
+    data: UpdateNotificationInput,
+    approvalResponse: boolean,
+  ): Promise<Notification> {
     const notification = await this.findOne(id);
+
+    // signal workflow on user response
+    await sendWorkflowApproval(
+      notification?.workflowId,
+      notification?.nodeId,
+      notification?.userId,
+      approvalResponse ?? false,
+    );
+
     Object.assign(notification, data);
     return this.notificationRepository.save(notification);
   }
