@@ -1,5 +1,4 @@
 # compiled output
-.npmrc
 /dist
 /node_modules
 /build
