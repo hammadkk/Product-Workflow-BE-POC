@@ -14,12 +14,6 @@ export enum ProductStatus {
     REJECTED = "REJECTED"
 }
 
-export enum ApprovalStatus {
-    PENDING = "PENDING",
-    APPROVED = "APPROVED",
-    REJECTED = "REJECTED"
-}
-
 export class CreateProductInput {
     name: string;
     mfr: string;
@@ -57,19 +51,6 @@ export class UpdateNotificationInput {
     isModified?: Nullable<boolean>;
 }
 
-export class CreateApprovalInput {
-    workflowId: string;
-    nodeId: string;
-    approvalStatus?: Nullable<ApprovalStatus>;
-    decisions?: Nullable<JSONObject>;
-}
-
-export class UpdateApprovalStatusInput {
-    id: string;
-    approvalStatus: ApprovalStatus;
-    decisions?: Nullable<JSONObject>;
-}
-
 export class Product {
     id: string;
     name: string;
@@ -89,15 +70,6 @@ export class Notification {
     productName: string;
     isModified: boolean;
 }
-
-export class Approval {
-    id: string;
-    workflowId: string;
-    nodeId: string;
-    approvalStatus: ApprovalStatus;
-    decisions?: Nullable<JSONObject>;
-}
-
 export abstract class IQuery {
     abstract products(): Product[] | Promise<Product[]>;
 
@@ -105,9 +77,6 @@ export abstract class IQuery {
 
     abstract notification(id: string): Notification | Promise<Notification>;
 
-    abstract findAllApprovals(): Approval[] | Promise<Approval[]>;
-
-    abstract findApprovalByWorkflowAndNode(workflowId: string, nodeId: string): Nullable<Approval> | Promise<Nullable<Approval>>;
 }
 
 export abstract class IMutation {
@@ -123,9 +92,6 @@ export abstract class IMutation {
 
     abstract deleteNotification(id: string): boolean | Promise<boolean>;
 
-    abstract createApproval(input: CreateApprovalInput): Approval | Promise<Approval>;
-
-    abstract updateApprovalStatus(input: UpdateApprovalStatusInput): Approval | Promise<Approval>;
 }
 
 export type JSONObject = any;
