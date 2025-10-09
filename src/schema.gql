@@ -28,20 +28,6 @@ type Notification {
   isModified: Boolean!
 }
 
-type Approval {
-  id: ID!
-  workflowId: String!
-  nodeId: String!
-  approvalStatus: ApprovalStatus!
-  decisions: JSONObject
-}
-
-enum ApprovalStatus {
-  PENDING
-  APPROVED
-  REJECTED
-}
-
 """
 The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
@@ -51,8 +37,6 @@ type Query {
   products: [Product!]!
   notifications: [Notification!]!
   notification(id: ID!): Notification!
-  findAllApprovals: [Approval!]!
-  findApprovalByWorkflowAndNode(workflowId: String!, nodeId: String!): Approval
 }
 
 type Mutation {
@@ -62,8 +46,6 @@ type Mutation {
   createNotification(createNotificationInput: CreateNotificationInput!): Notification!
   updateNotification(updateNotificationInput: UpdateNotificationInput!, approval: Boolean! = false): Notification!
   deleteNotification(id: ID!): Boolean!
-  createApproval(input: CreateApprovalInput!): Approval!
-  updateApprovalStatus(input: UpdateApprovalStatusInput!): Approval!
 }
 
 input CreateProductInput {
@@ -101,17 +83,4 @@ input CreateNotificationInput {
 input UpdateNotificationInput {
   id: ID!
   isModified: Boolean
-}
-
-input CreateApprovalInput {
-  workflowId: String!
-  nodeId: String!
-  approvalStatus: ApprovalStatus = PENDING
-  decisions: JSONObject
-}
-
-input UpdateApprovalStatusInput {
-  id: String!
-  approvalStatus: ApprovalStatus!
-  decisions: JSONObject
 }
